@@ -5,33 +5,36 @@ const InputNote = ({ takeNote }) => {
   const [noteData, setNoteData] = useState({ title: "", content: "" });
 
   const hadleChange = (e) => {
-    if (e.target.name === "title") {
-      setNoteData({ ...noteData, title: e.target.vaiue });
-    } else {
-      setNoteData({ ...noteData, content: e.target.vaiue });
-    }
+    const { name, value } = e.target;
+    setNoteData((prevNote) => {
+      return {
+        ...prevNote,
+        [name]: value,
+      };
+    });
   };
 
-  const handleClick = () => {
+  const handleClick = (e) => {
     if (noteData.title === "" || noteData.content === "") {
       alert("Please fill all the details");
     } else {
       takeNote(noteData);
       setNoteData({ title: "", content: "" });
     }
+    e.preventDefault();
   };
 
   return (
     <div>
       <form>
         <input
-          value={noteData.name}
+          value={noteData.title}
           name="title"
           placeholder="Title"
           onChange={hadleChange}
         />
         <textarea
-          value={noteData.name}
+          value={noteData.content}
           name="content"
           placeholder="Take a note..."
           rows={3}

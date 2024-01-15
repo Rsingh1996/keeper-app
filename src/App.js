@@ -4,19 +4,36 @@ import InputNote from "./component/InputNote";
 import Header from "./component/Header";
 import Note from "./component/Note";
 import { useState } from "react";
-import uuid4 from "uuid4";
 function App() {
-  const [note, setNote] = useState([]);
+  const [notes, setNotes] = useState([]);
 
-  const takeNote = (data) => {
-    setNote([...note, data]);
+  const takeNote = (newNote) => {
+    setNotes((prevNotes) => {
+      return [...prevNotes, newNote];
+    });
   };
-  console.log(note);
+
+  const deleteNote = (id) => {
+    setNotes((prevNotes) => {
+      return prevNotes.filter((noteItem, index) => index !== id);
+    });
+  };
+
   return (
     <div className="App">
       <Header />
       <InputNote takeNote={takeNote} />
-      <Note note={note} />
+      {notes.map((noteItem, index) => {
+        return (
+          <Note
+            key={index}
+            id={index}
+            title={noteItem.title}
+            content={noteItem.content}
+            deleteNote={deleteNote}
+          />
+        );
+      })}
       <Footer />
     </div>
   );
