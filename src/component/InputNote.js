@@ -1,7 +1,12 @@
 import React from "react";
+import AddIcon from "@mui/icons-material/Add";
+import Fab from "@mui/material/Fab";
+import Zoom from "@mui/material/Zoom";
+import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import { useState } from "react";
 
 const InputNote = ({ takeNote }) => {
+  const [isExpanded, setExpanded] = useState(false);
   const [noteData, setNoteData] = useState({ title: "", content: "" });
 
   const hadleChange = (e) => {
@@ -24,25 +29,35 @@ const InputNote = ({ takeNote }) => {
     e.preventDefault();
   };
 
+  const expand = () => {
+    setExpanded(true);
+  };
+
   return (
     <div>
-      <form>
-        <input
-          value={noteData.title}
-          name="title"
-          placeholder="Title"
-          onChange={hadleChange}
-        />
+      <form className="create-note">
+        {isExpanded && (
+          <input
+            value={noteData.title}
+            name="title"
+            placeholder="Title"
+            maxlength="10"
+            onChange={hadleChange}
+          />
+        )}
         <textarea
+          onClick={expand}
           value={noteData.content}
           name="content"
           placeholder="Take a note..."
-          rows={3}
+          rows={isExpanded ? 3 : 1}
           onChange={hadleChange}
         />
-        <button type="button" onClick={handleClick}>
-          Add
-        </button>
+        <Zoom in={isExpanded}>
+          <Fab type="button" onClick={handleClick}>
+            <NoteAddIcon />
+          </Fab>
+        </Zoom>
       </form>
     </div>
   );
