@@ -3,9 +3,16 @@ import Footer from "./component/Footer";
 import InputNote from "./component/InputNote";
 import Header from "./component/Header";
 import Note from "./component/Note";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 function App() {
-  const [notes, setNotes] = useState([]);
+  const localStorageKey = "notes";
+  const [notes, setNotes] = useState(() => {
+    return JSON.parse(localStorage.getItem(localStorageKey)) || [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem(localStorageKey, JSON.stringify(notes));
+  }, [notes]);
 
   const takeNote = (newNote) => {
     setNotes((prevNotes) => {
