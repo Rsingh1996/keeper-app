@@ -3,9 +3,10 @@ import AddIcon from "@mui/icons-material/Add";
 import Fab from "@mui/material/Fab";
 import Zoom from "@mui/material/Zoom";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 const InputNote = ({ takeNote }) => {
+  const inputRef = useRef(null);
   const [isExpanded, setExpanded] = useState(false);
   const [noteData, setNoteData] = useState({ title: "", content: "" });
 
@@ -27,6 +28,7 @@ const InputNote = ({ takeNote }) => {
       setNoteData({ title: "", content: "" });
     }
     e.preventDefault();
+    inputRef.current.focus();
   };
 
   const expand = () => {
@@ -43,6 +45,7 @@ const InputNote = ({ takeNote }) => {
             placeholder="Title"
             maxlength="10"
             onChange={hadleChange}
+            ref={inputRef}
           />
         )}
         <textarea
